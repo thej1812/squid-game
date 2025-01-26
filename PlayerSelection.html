@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Selection</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="player-selection-container">
+    <h1>Select Your Player</h1>
+    <div class="players">
+      <div class="player" onclick="selectPlayer('player1.png')">
+        <img src="player1.png" alt="Player 1" />
+        <p>001</p>
+      </div>
+      <div class="player" onclick="selectPlayer('player6.png')">
+        <img src="player6.png" alt="Player 2" />
+        <p>456</p>
+      </div>
+      <div class="player" onclick="selectPlayer('player4.png')">
+        <img src="player4.png" alt="Player 3"/>
+        <p>120</p>
+      </div>
+      <div class="player" onclick="selectPlayer('player5.png')">
+        <img src="player5.png" alt="Player 4" />
+        <p>230</p>
+      </div>
+      <div class="player" onclick="selectPlayer('player4.png')">
+        <img src="player4.png" alt="Player 5" />
+        <p>148</p>
+      </div>
+      <div class="player" onclick="selectPlayer('player2.png')">
+        <img src="player2.png" alt="Player 6" />
+        <p>067</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    function selectPlayer(playerImage) {
+      localStorage.setItem('selectedPlayer', playerImage); 
+      window.location.href = 'game.html'; 
+    }
+  </script>
+</body>
+</html>
