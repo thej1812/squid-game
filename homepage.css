@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Squid+Game&display=swap');
 body {
-    background-image: url('https://thumbs.dreamstime.com/b/squid-game-geometric-pattern-seamless-concept-version-background-movie-231715416.jpg');
+    background-image: url('BGG.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -9,7 +9,7 @@ body {
     font-size: 24px;
     position: relative;
     overflow: hidden;
-    font-family: 'Squid Game', sans-serif;
+    font-family: 'Squid Game', monospace;
 }
 
 body::before {
@@ -36,9 +36,9 @@ body::before {
     font-size: 50px;
     font-weight: bold;
     text-transform: uppercase;
-    color: #ff69b4; 
-    text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493, 0 0 30px #ff85b0;
-    animation: glow 2s infinite alternate;
+    color: #fefefe; 
+    text-shadow: 0 0 10px #eb2424, 0 0 20px #fe431e, 0 0 30px #ff8585;
+    
 }
 
 #startGameButton {
@@ -51,11 +51,11 @@ body::before {
     border-radius: 5px;
     font-weight: bold;
     transition: 0.3s;
-    box-shadow: 0 0 10px #ff69b4;
+    box-shadow: 0 0 10px #ff6969;
 }
 
 #startGameButton:hover {
-    box-shadow: 0 0 20px #ff69b4;
+    box-shadow: 0 0 20px #ff6969;
 }
 
 .symbol {
