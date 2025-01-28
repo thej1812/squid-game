@@ -5,6 +5,8 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
+    color: aliceblue;
+    font-family: monospace;
   }
   
   .loader-container {
