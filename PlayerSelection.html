@@ -3,44 +3,598 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Player Selection</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Squid Game - Player Selection</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: white;
+      overflow-x: hidden;
+      background-image: radial-gradient(circle at center, #2a1428 0%, #121212 70%);
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .header {
+      margin-bottom: 60px;
+      position: relative;
+    }
+    
+    h1 {
+      font-size: 48px;
+      color: #FF0078;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 15px;
+      text-shadow: 0 0 20px rgba(255, 0, 120, 0.5);
+    }
+    
+    .subtitle {
+      font-size: 20px;
+      color: #FFB800;
+      margin-bottom: 40px;
+    }
+    
+    .countdown {
+      font-size: 24px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .shapes-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .shape {
+      width: 40px;
+      height: 40px;
+      position: relative;
+    }
+    
+    .circle {
+      background-color: #FF0078;
+      border-radius: 50%;
+    }
+    
+    .triangle {
+      background-color: transparent;
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 40px solid #0079FF;
+    }
+    
+    .square {
+      background-color: #FFB800;
+      transform: rotate(45deg);
+    }
+    
+    .players-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .player-card {
+      width: 180px;
+      height: 260px;
+      background-color: #1D1D1D;
+      border: 2px solid #FF0078;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 0, 120, 0.3);
+    }
+    
+    .player-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 30px rgba(255, 0, 120, 0.6);
+      border-color: #FFB800;
+    }
+    
+    .player-card:active {
+      transform: scale(0.95);
+    }
+    
+    .player-image {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      background-color: #2a2a2a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .player-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .player-placeholder {
+      width: 100px;
+      height: 140px;
+      background-color: #333;
+      border-radius: 10px;
+    }
+    
+    .player-number {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #FF0078;
+      color: white;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 18px;
+      z-index: 2;
+    }
+    
+    .player-info {
+      padding: 15px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    .player-info h3 {
+      font-size: 16px;
+      color: white;
+    }
+    
+    .player-info p {
+      font-size: 14px;
+      color: #b0b0b0;
+    }
+    
+    /* Masked guard */
+    .guard {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0.8;
+    }
+    
+    .guard-head {
+      width: 60px;
+      height: 60px;
+      background-color: #222;
+      border-radius: 50%;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .guard-symbol {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border-radius: 50%;
+    }
+    
+    .guard-body {
+      width: 80px;
+      height: 50px;
+      background-color: #FF0078;
+      margin-top: -10px;
+      border-radius: 10px 10px 0 0;
+    }
+    
+    /* Doll */
+    .doll {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0.7;
+    }
+    
+    .doll-head {
+      width: 40px;
+      height: 40px;
+      background-color: #FFB800;
+      border-radius: 50% 50% 0 0;
+      position: relative;
+    }
+    
+    .doll-eye {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      background-color: #FF0078;
+      border-radius: 50%;
+      animation: blinkEye 5s infinite;
+    }
+    
+    @keyframes blinkEye {
+      0%, 45%, 55%, 100% {
+        background-color: #FF0078;
+      }
+      50% {
+        background-color: #00FF00;
+      }
+    }
+    
+    .doll-body {
+      width: 30px;
+      height: 60px;
+      background-color: #FFB800;
+      border-radius: 0 0 10px 10px;
+    }
+    
+    /* Confetti effect for selection */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: #FFB800;
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    /* Glowing buttons */
+    .proceed-btn {
+      background-color: #FF0078;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 40px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(255, 0, 120, 0.5);
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .proceed-btn.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .proceed-btn:hover {
+      background-color: #FFB800;
+      box-shadow: 0 0 20px rgba(255, 184, 0, 0.6);
+    }
+    
+    /* Bottom number counter */
+    .player-counter {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #FFB800;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    @media (max-width: 768px) {
+      .players-container {
+        gap: 20px;
+      }
+      
+      .player-card {
+        width: 150px;
+        height: 220px;
+      }
+      
+      .player-image {
+        height: 150px;
+      }
+      
+      .player-info {
+        padding: 10px;
+      }
+      
+      .player-info h3 {
+        font-size: 14px;
+      }
+      
+      .player-info p {
+        font-size: 12px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 32px;
+      }
+      
+      .subtitle {
+        font-size: 16px;
+      }
+      
+      .players-container {
+        gap: 15px;
+      }
+      
+      .player-card {
+        width: 130px;
+        height: 200px;
+      }
+      
+      .player-image {
+        height: 130px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="player-selection-container">
-    <h1>Select Your Player</h1>
-    <div class="players">
-      <div class="player" onclick="selectPlayer('player1.png')">
-        <img src="player1.png" alt="Player 1" />
-        <p>001</p>
-      </div>
-      <div class="player" onclick="selectPlayer('player6.png')">
-        <img src="player6.png" alt="Player 2" />
-        <p>456</p>
-      </div>
-      <div class="player" onclick="selectPlayer('player4.png')">
-        <img src="player4.png" alt="Player 3"/>
-        <p>120</p>
-      </div>
-      <div class="player" onclick="selectPlayer('player5.png')">
-        <img src="player5.png" alt="Player 4" />
-        <p>230</p>
-      </div>
-      <div class="player" onclick="selectPlayer('player4.png')">
-        <img src="player4.png" alt="Player 5" />
-        <p>148</p>
-      </div>
-      <div class="player" onclick="selectPlayer('player2.png')">
-        <img src="player2.png" alt="Player 6" />
-        <p>067</p>
+  <div class="container">
+    <div class="header">
+      <h1>Select Your Player</h1>
+      <div class="subtitle">Choose wisely. Your life depends on it.</div>
+      <div class="countdown">SELECTION ENDS IN: <span id="timer">05:00</span></div>
+      <div class="shapes-container">
+        <div class="shape circle"></div>
+        <div class="shape triangle"></div>
+        <div class="shape square"></div>
       </div>
     </div>
+    
+    <div class="players-container">
+      <div class="player-card" onclick="selectPlayer('player1.png', '001')">
+        <div class="player-number">001</div>
+        <div class="player-image">
+          <img src="/api/placeholder/176/180" alt="Player 001" />
+        </div>
+        <div class="player-info">
+          <h3>Oh Il-nam</h3>
+          <p>The Elderly Man</p>
+        </div>
+      </div>
+      
+      <div class="player-card" onclick="selectPlayer('player2.png', '067')">
+        <div class="player-number">067</div>
+        <div class="player-image">
+          <img src="/api/placeholder/176/180" alt="Player 067" />
+        </div>
+        <div class="player-info">
+          <h3>Kang Sae-byeok</h3>
+          <p>The Defector</p>
+        </div>
+      </div>
+      
+      <div class="player-card" onclick="selectPlayer('player4.png', '120')">
+        <div class="player-number">120</div>
+        <div class="player-image">
+          <img src="/api/placeholder/176/180" alt="Player 120" />
+        </div>
+        <div class="player-info">
+          <h3>Deok-su</h3>
+          <p>The Gangster</p>
+        </div>
+      </div>
+      
+      <div class="player-card" onclick="selectPlayer('player5.png', '230')">
+        <div class="player-number">230</div>
+        <div class="player-image">
+          <img src="/api/placeholder/176/180" alt="Player 230" />
+        </div>
+        <div class="player-info">
+          <h3>Ji-yeong</h3>
+          <p>The Young Girl</p>
+        </div>
+      </div>
+      
+      <div class="player-card" onclick="selectPlayer('player4.png', '148')">
+        <div class="player-number">148</div>
+        <div class="player-image">
+          <img src="/api/placeholder/176/180" alt="Player 148" />
+        </div>
+        <div class="player-info">
+          <h3>Ali Abdul</h3>
+          <p>The Migrant Worker</p>
+        </div>
+      </div>
+      
+      <div class="player-card" onclick="selectPlayer('player6.png', '456')">
+        <div class="player-number">456</div>
+        <div class="player-image">
+          <img src="/api/placeholder/176/180" alt="Player 456" />
+        </div>
+        <div class="player-info">
+          <h3>Seong Gi-hun</h3>
+          <p>The Gambler</p>
+        </div>
+      </div>
+    </div>
+    
+    <button id="proceedBtn" class="proceed-btn" onclick="proceedToGame()">Continue To Game</button>
   </div>
+  
+  <div class="guard">
+    <div class="guard-head">
+      <div class="guard-symbol"></div>
+    </div>
+    <div class="guard-body"></div>
+  </div>
+  
+  <div class="doll">
+    <div class="doll-head">
+      <div class="doll-eye"></div>
+    </div>
+    <div class="doll-body"></div>
+  </div>
+  
+  <div class="player-counter">PLAYERS REMAINING: 456</div>
+  
   <script>
-    function selectPlayer(playerImage) {
-      localStorage.setItem('selectedPlayer', playerImage); 
-      window.location.href = 'game.html'; 
+    let selectedPlayer = null;
+    let selectedNumber = null;
+    
+    function selectPlayer(playerImage, playerNumber) {
+      // Remove active class from all cards
+      const allCards = document.querySelectorAll('.player-card');
+      allCards.forEach(card => {
+        card.style.transform = '';
+        card.style.boxShadow = '';
+        card.style.borderColor = '#FF0078';
+      });
+      
+      // Store the selection
+      selectedPlayer = playerImage;
+      selectedNumber = playerNumber;
+      localStorage.setItem('selectedPlayer', playerImage);
+      localStorage.setItem('selectedNumber', playerNumber);
+      
+      // Highlight the selected card
+      const selectedCard = event.currentTarget;
+      selectedCard.style.transform = 'translateY(-10px) scale(1.05)';
+      selectedCard.style.boxShadow = '0 0 30px rgba(255, 0, 120, 0.8)';
+      selectedCard.style.borderColor = '#FFB800';
+      
+      // Create confetti effect around the selected card
+      createConfetti(selectedCard);
+      
+      // Show the proceed button
+      document.getElementById('proceedBtn').classList.add('active');
     }
+    
+    function createConfetti(selectedCard) {
+      // Get position of selected card
+      const rect = selectedCard.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      // Create confetti pieces
+      for (let i = 0; i < 30; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        
+        const colors = ['#FF0078', '#0079FF', '#FFB800', 'white'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        confetti.style.backgroundColor = color;
+        confetti.style.left = centerX + 'px';
+        confetti.style.top = centerY + 'px';
+        
+        const size = Math.random() * 8 + 4;
+        confetti.style.width = size + 'px';
+        confetti.style.height = size + 'px';
+        
+        const shape = Math.floor(Math.random() * 3);
+        if (shape === 0) {
+          confetti.style.borderRadius = '50%'; // Circle
+        } else if (shape === 1) {
+          confetti.style.transform = 'rotate(45deg)'; // Square/Diamond
+        }
+        
+        document.body.appendChild(confetti);
+        
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 100 + 50;
+        const destX = centerX + Math.cos(angle) * distance;
+        const destY = centerY + Math.sin(angle) * distance;
+        
+        confetti.style.transition = 'all 1s ease-out';
+        setTimeout(() => {
+          confetti.style.opacity = '1';
+          confetti.style.transform = `translate(${destX - centerX}px, ${destY - centerY}px) rotate(${Math.random() * 360}deg)`;
+        }, 10);
+        
+        setTimeout(() => {
+          confetti.style.opacity = '0';
+        }, 700);
+        
+        setTimeout(() => {
+          confetti.remove();
+        }, 1500);
+      }
+    }
+    
+    function proceedToGame() {
+      if (selectedPlayer) {
+        window.location.href = 'game.html';
+      }
+    }
+    
+    // Countdown timer function
+    function startTimer() {
+      let minutes = 5;
+      let seconds = 0;
+      
+      const timerInterval = setInterval(() => {
+        if (seconds === 0) {
+          if (minutes === 0) {
+            clearInterval(timerInterval);
+            if (!selectedPlayer) {
+              // Randomly select a player if time runs out
+              const allCards = document.querySelectorAll('.player-card');
+              const randomIndex = Math.floor(Math.random() * allCards.length);
+              allCards[randomIndex].click();
+              
+              setTimeout(() => {
+                proceedToGame();
+              }, 2000);
+            }
+            return;
+          }
+          minutes--;
+          seconds = 59;
+        } else {
+          seconds--;
+        }
+        
+        const formattedMinutes = String(minutes).padStart(2, '0');
+        const formattedSeconds = String(seconds).padStart(2, '0');
+        document.getElementById('timer').textContent = `${formattedMinutes}:${formattedSeconds}`;
+      }, 1000);
+    }
+    
+    // Start the timer when page loads
+    window.onload = function() {
+      startTimer();
+    };
   </script>
 </body>
 </html>
