@@ -3,17 +3,199 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading...</title>
-  <link rel="stylesheet" href="loader.css">
+  <title>Squid Game - Loading</title>
+  <style>
+    body {
+      background-color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: white;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+    }
+    
+    .loader-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+    }
+    
+    .shapes-container {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .shape {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      animation: pulse 2s infinite alternate;
+    }
+    
+    .circle {
+      background-color: #FF0078;
+      border-radius: 50%;
+      animation-delay: 0s;
+    }
+    
+    .triangle {
+      background-color: transparent;
+      width: 0;
+      height: 0;
+      border-left: 40px solid transparent;
+      border-right: 40px solid transparent;
+      border-bottom: 80px solid #0079FF;
+      animation-delay: 0.5s;
+    }
+    
+    .square {
+      background-color: #FFB800;
+      transform: rotate(45deg);
+      animation-delay: 1s;
+    }
+    
+    .loading-text {
+      font-size: 24px;
+      letter-spacing: 3px;
+      margin-top: 30px;
+      position: relative;
+    }
+    
+    .progress-bar {
+      width: 300px;
+      height: 8px;
+      background-color: #333;
+      border-radius: 4px;
+      margin-top: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .progress {
+      height: 100%;
+      background-color: #FF0078;
+      width: 0%;
+      animation: loading 7s linear forwards;
+    }
+    
+    .counter {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #FFB800;
+    }
+    
+    .masked-figure {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 100px;
+      height: 100px;
+      opacity: 0.7;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      100% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes loading {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    .blinking-dots {
+      display: inline-block;
+      animation: blink 1.4s infinite;
+      width: 30px;
+      text-align: left;
+    }
+    
+    /* VIP Mask */
+    .mask {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      width: 80px;
+      height: 80px;
+      background-color: #FFB800;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      opacity: 0.6;
+    }
+    
+    .mask::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: black;
+    }
+  </style>
 </head>
 <body>
   <div class="loader-container">
-    <img src="logo.png" alt="Game Logo" class="logo" id="gameLogo">
-    <div>
-      <h1>Loading....</h1>
+    <div class="shapes-container">
+      <div class="shape circle"></div>
+      <div class="shape triangle"></div>
+      <div class="shape square"></div>
     </div>
+    
+    <div class="loading-text">
+      PREPARING GAMES<span class="blinking-dots">...</span>
+    </div>
+    
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+    
+    <div class="counter">
+      <span id="count">0</span>/456 PLAYERS READY
+    </div>
+    
+    <div class="mask"></div>
   </div>
 
-  <script src="loader.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const countElement = document.getElementById('count');
+      let count = 0;
+      const totalPlayers = 456;
+      const interval = 7000 / totalPlayers;
+      
+      const counter = setInterval(() => {
+        count++;
+        countElement.textContent = count;
+        
+        if (count >= totalPlayers) {
+          clearInterval(counter);
+        }
+      }, interval);
+      
+      setTimeout(() => {
+        window.location.href = "homepage.html"; 
+      }, 7000); 
+    });
+  </script>
 </body>
 </html>
